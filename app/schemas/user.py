@@ -1,5 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 import enum
+
+
+class Email(BaseModel):
+    email: EmailStr
 
 
 class RolesEnum(str, enum.Enum):
@@ -9,11 +13,18 @@ class RolesEnum(str, enum.Enum):
 
 
 class User(BaseModel):
-    username: str
+    username: EmailStr
     password: str
     role: RolesEnum
-    email: str
+    is_active: bool | None
+    otp: str | None
+    image: str
 
     class Config:
         orm_mode = True
         from_attributes = True
+
+
+class UserActivation(BaseModel):
+    Email: EmailStr
+    otp: str

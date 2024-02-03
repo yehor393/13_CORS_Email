@@ -9,8 +9,6 @@ class UserRepo():
         self.db = db
 
     def create(self, user):
-        if self.db.query(UserDB).filter(UserDB.email == user.email).first():
-            raise HTTPException(status_code=409, detail="Email already registered")
         password, salt = self.hash_password(user.password)
         new_user = UserDB(**user.dict())
         new_user.password = password
